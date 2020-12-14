@@ -27,6 +27,6 @@ brew cask install chromedriver
 
 #pip install pytest
 
-curl -X GET http://localhost:8000/aaa
+#curl -X GET http://localhost:8000/aaa
 curl -d "watch_id=ioNng23DkIM" -X POST http://localhost:8000/crawl
 
