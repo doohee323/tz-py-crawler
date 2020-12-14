@@ -78,3 +78,4 @@ class YoutubeSpider(Spider):
         if text is None:
             return None
         return ''.join(c for c in text if c.isalnum() or c.isspace() or c == ',' or c == '.').replace('YouTube', '').replace('  ', ' ').strip()
+

@@ -11,10 +11,19 @@ Youtube crawler with scrapy and selenium(for lazy loading elements).
     brew cask install chromedriver
 ``` 
 
-## -. Run crawl
+## -. Run crawl with CLI
 ```
     to test this url, https://www.youtube.com/watch?v=ioNng23DkIM,
 
-    cd youtube
-    crawl youtube -a watch_id=ioNng23DkIM -o test.csv
+    $> cd youtube
+    $> crawl youtube -a watch_id=ioNng23DkIM -o test.csv
+```
+
+## -. Run crawl with curl
+```
+    $> cd tz-py-crawler
+    $> python3 youtube/youtube/server.py
+    Starting httpd server on localhost:8000
+    
+    $> curl -d "watch_id=ioNng23DkIM" -X POST http://localhost:8000/crawl
 ```
