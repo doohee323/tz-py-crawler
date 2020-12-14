@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-cd ..
-
 brew install python
 brew info python
 
@@ -13,8 +11,8 @@ python --version
 pip3 install scrapy
 pip3 install selenium
 pip3 install requests
-#pip3 freeze > scripts/requirements.txt
-pip3 install --upgrade -r scripts/requirements.txt
+#pip3 freeze > requirements.txt
+pip3 install --upgrade -r requirements.txt
 
 #scrapy startproject youtube
 #scrapy genspider -t crawl stack_crawler www.test.co.kr
@@ -27,6 +25,21 @@ brew cask install chromedriver
 
 #pip install pytest
 
+exit 0
+
 #curl -X GET http://localhost:8000/aaa
 curl -d "watch_id=ioNng23DkIM" -X POST http://localhost:8000/crawl
+
+# make docker image
+docker build -t tz-py-crawler .
+
+docker run -d -v `pwd`/shared:/code -p 8000:8000 tz-py-crawler
+docker run -v `pwd`/shared:/code -p 8000:8000 tz-py-crawler
+
+#docker image ls
+#docker container run -it --rm --name=debug2 -v `pwd`/shared:/shared 40ae7dc78fff /bin/sh
+
+#python /code/youtube/server.py &
+#cat /code/youtube/ioNng23DkIM.csv
+
 

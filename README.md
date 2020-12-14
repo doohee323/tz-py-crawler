@@ -6,7 +6,7 @@ Youtube crawler with scrapy and selenium(for lazy loading elements).
 ``` 
     pip3 install scrapy
     pip3 install selenium
-    pip3 install --upgrade -r scripts/requirements.txt
+    pip3 install --upgrade -r requirements.txt
     
     brew cask install chromedriver
 ``` 

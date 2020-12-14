@@ -10,6 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class YoutubeSpider(Spider):
     name = 'youtube'
+    allowed_domains = ['www.youtube.com']
     youtube: str = 'https://www.youtube.com/'
     start_urls = []
 
@@ -28,13 +29,27 @@ class YoutubeSpider(Spider):
     def parse(self, r):
 
         chrome_options = Options()
-        # chrome_options.add_argument("--headless") ## silent mode, but not stable!!!
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--whitelisted-ips")
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-extensions")
+        # chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_options.add_experimental_option(
+            'prefs', {
+                'download.default_directory': '/tmp',
+                'download.prompt_for_download': False,
+                'download.directory_upgrade': True,
+                'safebrowsing.enabled': True
+            })
         driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver', chrome_options=chrome_options)
         # driver.set_window_size(0, 0, windowHandle='current')
         # driver.set_window_position(-3000, 0, windowHandle='current')
         driver.get(r.url)
-        wait = WebDriverWait(driver, 10)
-        wait.until(EC.element_to_be_clickable((By.ID, 'top-level-buttons')))
+        driver.implicitly_wait(10)
+        driver.find_element_by_id('top-level-buttons')
+        # wait = WebDriverWait(driver, 30)
+        # wait.until(EC.element_to_be_clickable((By.ID, 'top-level-buttons')))
 
         sr = Selector(text=driver.page_source)
         yt_id = r.xpath("//meta[@itemprop='videoId']/@content").get(self.parse_url(r.url, 'v')[0])
@@ -53,13 +68,9 @@ class YoutubeSpider(Spider):
 
             yield {
                 'title': self.optymize_text(r.xpath('//title/text()').get(None)),
-                # 'description': self.optymize_text(r.xpath('//p[@id="eow-description"]/text()').get('')),
                 'tags': tags,
-                # 'regions_allowed': r.xpath("//meta[@2itemprop='regionsAllowed']/@content").get(),
                 'is_family_frendly': int('True' == r.xpath("//meta[@itemprop='isFamilyFriendly']/@content").get(0)),
                 'yt_id': yt_id,
-                'width': r.xpath("//meta[@itemprop='width']/@c2ontent").get(),
-                'height': r.xpath(f"//meta[@itemprop='height']/@content").get(),
                 'interaction_count': int(r.xpath(f"//meta[@itemprop='interactionCount']/@content").get(0)),
                 'date_published': r.xpath("//meta[@itemprop='datePublished']/@content").get(),
                 'duration': duration,
@@ -67,12 +78,12 @@ class YoutubeSpider(Spider):
                 'channel_title': sr.xpath("//ytd-channel-name[@id='channel-name']")[0].xpath('//*[@id="text"]/a/text()')[0].root, # sr.xpath("//div[@class='yt-user-info']/a/text()").get(None),
                 'likeCount': likeCount,
                 'dislikeCount': dislikeCount,
-                # 'category': self.all_categories.index(r.xpath("//meta[@itemprop='genre']/@content").get('None')),
                 'language': r.xpath('//span[contains(@class, "content-region")]/text()').get('')
             }
         else:
             print('None found yt_id', yt_id)
         print('Done!')
+        driver.quit()
 
     def optymize_text(self, text=None):
         if text is None:
