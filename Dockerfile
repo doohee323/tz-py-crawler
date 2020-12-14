@@ -1,15 +1,15 @@
 # set base image (host OS)
-FROM ubuntu:18.04
-#FROM python:3.8
+#FROM ubuntu:18.04
+FROM python:3.8
 
-RUN apt-get update && apt-get install -y curl build-essential python3.8 python3.8-dev python3.8-distutils
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
-RUN update-alternatives --set python /usr/bin/python3.8
-RUN curl -s https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-    python get-pip.py --force-reinstall && \
-    rm get-pip.py
-
-RUN apt-get install -y unzip xvfb libxi6 libgconf-2-4
+RUN apt-get update && apt-get install -y curl build-essential
+#RUN apt-get update && apt-get install -y python3.8 python3.8-dev python3.8-distutils
+#RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
+#RUN update-alternatives --set python /usr/bin/python3.8
+#RUN curl -s https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+#    python get-pip.py --force-reinstall && \
+#    rm get-pip.py
+#RUN apt-get install -y unzip xvfb libxi6 libgconf-2-4
 
 # Install Chrome for Selenium
 RUN curl https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o /chrome.deb

@@ -3,6 +3,7 @@ import argparse
 import subprocess
 from urllib import parse
 import os
+import datetime
 
 
 class S(BaseHTTPRequestHandler):
@@ -38,8 +39,10 @@ class S(BaseHTTPRequestHandler):
     def run_craler(self, watch_id=''):
         if watch_id == '':
             return 'watch_id is required.'
+        currentDT = datetime.datetime.now()
+        csv_path = '../' + watch_id + '_' + currentDT.strftime("%Y%m%d%H%M%S") + '.csv'
         process = subprocess.Popen(
-            ['scrapy', 'crawl', 'youtube', '-a', 'watch_id=' + watch_id, '-o', watch_id + '.csv'],
+            ['scrapy', 'crawl', 'youtube', '-a', 'watch_id=' + watch_id, '-o', csv_path],
             cwd=os.path.dirname(os.path.realpath(__file__)),
             stdout=subprocess.PIPE,
             universal_newlines=True)

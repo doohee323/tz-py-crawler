@@ -5,12 +5,12 @@ brew info python
 
 #sudo /usr/local/Cellar/python@3.9/3.9.1/bin/easy_install-3.9 virtualenv
 #virtualenv venv --python=python3.9
+virtualenv venv
 source venv/bin/activate
 python --version
 
 pip3 install scrapy
 pip3 install selenium
-pip3 install requests
 #pip3 freeze > requirements.txt
 pip3 install --upgrade -r requirements.txt
 
@@ -27,19 +27,19 @@ brew cask install chromedriver
 
 exit 0
 
-#curl -X GET http://localhost:8000/aaa
 curl -d "watch_id=ioNng23DkIM" -X POST http://localhost:8000/crawl
 
 # make docker image
 docker build -t tz-py-crawler .
+#docker login -u="$USERNAME" -p="$PASSWD"
+#docker tag tz-py-crawler:latest doohee323/tz-py-crawler:latest
+#docker push doohee323/tz-py-crawler:latest
 
-docker run -d -v `pwd`/shared:/code -p 8000:8000 tz-py-crawler
-docker run -v `pwd`/shared:/code -p 8000:8000 tz-py-crawler
+docker run -d -v `pwd`/youtube:/code/youtube -p 8000:8000 tz-py-crawler
+docker run -v `pwd`/youtube:/code/youtube -p 8000:8000 tz-py-crawler
 
 #docker image ls
-#docker container run -it --rm --name=debug2 -v `pwd`/shared:/shared 40ae7dc78fff /bin/sh
+#docker container run -it --rm --name=debug2 -v `pwd`/youtube:/code/youtube a36f1ce25bb5 /bin/sh
 
-#python /code/youtube/server.py &
-#cat /code/youtube/ioNng23DkIM.csv
-
-
+#python /code/youtube/youtube/server.py &
+#cat /code/youtube/youtube/ioNng23DkIM.csv
