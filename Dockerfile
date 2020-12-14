@@ -1,4 +1,3 @@
-# set base image (host OS)
 #FROM ubuntu:18.04
 FROM python:3.8
 
@@ -22,17 +21,12 @@ RUN unzip chromedriver_linux64.zip
 RUN mv chromedriver /usr/local/bin/chromedriver
 RUN chmod +x /usr/local/bin/chromedriver
 
-# set the working directory in the container
 WORKDIR /code
 
-# copy the dependencies file to the working directory
 COPY requirements.txt .
-
-# install dependencies
 RUN pip install -r requirements.txt
 
-# copy the content of the local src directory to the working directory
 COPY youtube/ .
 
-# command to run on container start
-CMD [ "python", "/code/youtube/server.py" ]
+EXPOSE 8000
+CMD [ "python", "/code/youtube/youtube/server.py" ]

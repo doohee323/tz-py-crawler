@@ -34,5 +34,4 @@ Youtube crawler with scrapy and selenium(for lazy loading elements).
     $> docker pull doohee323/tz-py-crawler:latest
     $> docker run -d -v `pwd`/youtube:/code/youtube -p 8000:8000 tz-py-crawler
     $> curl -d "watch_id=ioNng23DkIM" -X POST http://localhost:8000/crawl 
-
 ```
