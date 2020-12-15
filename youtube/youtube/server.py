@@ -40,13 +40,16 @@ class S(BaseHTTPRequestHandler):
         if watch_id == '':
             return 'watch_id is required.'
         currentDT = datetime.datetime.now()
-        csv_path = '../' + watch_id + '_' + currentDT.strftime("%Y%m%d%H%M%S") + '.csv'
+        out = ''
+        if os.path.exists('/mnt'):
+            csv_path = '/mnt/' + watch_id + '_' + currentDT.strftime("%Y%m%d%H%M%S") + '.csv'
+        else:
+            csv_path = '../' + watch_id + '_' + currentDT.strftime("%Y%m%d%H%M%S") + '.csv'
         process = subprocess.Popen(
             ['scrapy', 'crawl', 'youtube', '-a', 'watch_id=' + watch_id, '-o', csv_path],
             cwd=os.path.dirname(os.path.realpath(__file__)),
             stdout=subprocess.PIPE,
             universal_newlines=True)
-        out = ''
         while True:
             return_code = process.poll()
             if return_code is not None:

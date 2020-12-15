@@ -29,4 +29,6 @@ RUN pip install -r requirements.txt
 COPY youtube/ .
 
 EXPOSE 8000
-CMD [ "python", "/code/youtube/youtube/server.py" ]
+#CMD [ "python", "/code/youtube/youtube/server.py" ]
+CMD [ "python", "/code/youtube/server.py" ]
+#CMD python -m http.server 8000

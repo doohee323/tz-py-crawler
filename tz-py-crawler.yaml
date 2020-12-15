@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tz-py-crawler
+spec:
+  selector:
+    matchLabels:
+      app: tz-py-crawler
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tz-py-crawler
+    spec:
+      containers:
+      - name: tz-py-crawler
+        image: doohee323/tz-py-crawler:latest
+        volumeMounts:
+          - name: local-persistent-storage
+            mountPath: /mnt
+      volumes:
+        - name: local-persistent-storage
+          persistentVolumeClaim:
+            claimName: tz-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tz-py-crawler
+spec:
+  type: NodePort
+  selector:
+    app: tz-py-crawler
+  ports:
+    - port: 8000
+      targetPort: 8000
+      nodePort: 30007
+
