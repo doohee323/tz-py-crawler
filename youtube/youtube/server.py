@@ -2,8 +2,10 @@ from http.server import HTTPServer, BaseHTTPRequestHandler
 import argparse
 import subprocess
 from urllib import parse
+import glob
 import os
 import datetime
+import requests
 
 
 class S(BaseHTTPRequestHandler):
@@ -16,47 +18,78 @@ class S(BaseHTTPRequestHandler):
         return message.encode("utf8")
 
     def do_GET(self):
+        query = requests.utils.urlparse(self.path).query
+        params = dict(x.split('=') for x in query.split('&'))
+        if '/crawl' in self.path:
+            if 'watch_ids' not in params:
+                out = 'watch_ids is required.'
+            else:
+                out = self.run_craler(params['watch_ids'], 'GET')
+        else:
+            out = 'Not found!'
         self._set_headers()
-        self.wfile.write(self._html("hi!"))
+        self.wfile.write(bytes("{\'result\': '" + out + "'}", 'utf-8'))
 
     def do_HEAD(self):
         self._set_headers()
 
     def do_POST(self):
+        print('===================')
         if self.path == '/crawl':
+            print('===================')
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
             self._set_headers()
             params = parse.parse_qs(parse.urlsplit(str(post_data, 'utf-8')).path)
-            if 'watch_id' not in params:
-                out = 'watch_id is required.'
+            if 'watch_ids' not in params:
+                out = 'watch_ids is required.'
             else:
-                out = self.run_craler(params['watch_id'][0])
+                out = self.run_craler(params['watch_ids'][0], 'POST')
         else:
             out = 'Not found!'
+        print('===================111')
         self.wfile.write(bytes("{\'result\': '" + out + "'}", 'utf-8'))
 
-    def run_craler(self, watch_id=''):
-        if watch_id == '':
-            return 'watch_id is required.'
+    def run_craler(self, watch_ids='', exec_type='GET'):
+        if watch_ids == '':
+            return 'watch_ids is required.'
         currentDT = datetime.datetime.now()
         out = ''
-        if os.path.exists('/mnt'):
-            csv_path = '/mnt/' + watch_id + '_' + currentDT.strftime("%Y%m%d%H%M%S") + '.csv'
-        else:
-            csv_path = '../' + watch_id + '_' + currentDT.strftime("%Y%m%d%H%M%S") + '.csv'
-        process = subprocess.Popen(
-            ['scrapy', 'crawl', 'youtube', '-a', 'watch_id=' + watch_id, '-o', csv_path],
-            cwd=os.path.dirname(os.path.realpath(__file__)),
-            stdout=subprocess.PIPE,
-            universal_newlines=True)
-        while True:
-            return_code = process.poll()
-            if return_code is not None:
-                for out1 in process.stdout.readlines():
-                    out = out + out1.strip()
-                break
-        return out
+        if exec_type == 'POST':
+            if os.path.exists('/mnt'):
+                csv_path = '/mnt/' + watch_ids + '_' + currentDT.strftime("%Y%m%d%H%M%S") + '.json'
+            else:
+                csv_path = '../' + watch_ids + '_' + currentDT.strftime("%Y%m%d%H%M%S") + '.json'
+            print(csv_path)
+            process = subprocess.Popen(
+                ['scrapy', 'crawl', 'youtube', '-a', 'watch_ids=' + watch_ids, '-o', csv_path, '-t', 'json'],
+                cwd=os.path.dirname(os.path.realpath(__file__)),
+                stdout=subprocess.PIPE,
+                universal_newlines=True)
+            while True:
+                return_code = process.poll()
+                if return_code is not None:
+                    for out1 in process.stdout.readlines():
+                        out = out + out1.strip()
+                    break
+            return out
+        elif exec_type == 'GET':
+            if os.path.exists('/mnt'):
+                csv_path = '/mnt/'
+            else:
+                csv_path = '../'
+            print(csv_path)
+            files = glob.glob(os.path.join(csv_path, watch_ids + '*.json'))
+            if not files:
+                return ''
+            try:
+                file = open(max(files, key=os.path.getctime), mode='r')
+                out = file.read()
+                file.close()
+            except TypeError:
+                pass
+            finally:
+                return out
 
 
 def run(server_class=HTTPServer, handler_class=S, addr="localhost", port=8000):

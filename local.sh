@@ -19,7 +19,7 @@ pip3 install --upgrade -r requirements.txt
 #scrapy genspider stack_crawler www.test.co.kr
 
 cd youtube
-scrapy crawl youtube -a watch_id=ioNng23DkIM -o any_name.csv
+scrapy crawl youtube -a watch_ids=ioNng23DkIM -o any_name.csv
 
 brew cask install chromedriver
 
@@ -27,18 +27,21 @@ brew cask install chromedriver
 
 exit 0
 
-curl -d "watch_id=ioNng23DkIM" -X POST http://localhost:8000/crawl
-
 # make docker image
+cd tz-k8s-vagrant/projects/tz-py-crawler
+#vi Dockerfile
+#CMD [ "python", "/code/youtube/youtube/server.py" ]
 docker build -t tz-py-crawler .
 #docker login -u="$USERNAME" -p="$PASSWD"
 #docker tag tz-py-crawler:latest doohee323/tz-py-crawler:latest
 #docker push doohee323/tz-py-crawler:latest
 
 docker run -d -v `pwd`/youtube:/code/youtube -p 8000:8000 tz-py-crawler
-docker run -v `pwd`/youtube:/code/youtube -p 8000:8000 tz-py-crawler
+docker run -v `pwd`/youtube:/code/youtube -p 8000:8000 -v `pwd`/mnt:/mnt tz-py-crawler
 #docker exec -it kind_benz /bin/bash
 
+curl -d "watch_ids=ioNng23DkIM,MlE-HP1U5DM" -X POST http://localhost:8000/crawl
+curl -X GET http://localhost:8000/crawl?watch_ids=ioNng23DkIM,MlE-HP1U5DM
 
 #docker image ls
 #docker container run -it --rm --name=debug2 -v `pwd`/youtube:/code/youtube -p 8000:8000 cd0dad6e335a /bin/sh

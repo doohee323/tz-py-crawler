@@ -42,4 +42,4 @@ docker run --rm -it --name=debug2 -v `pwd`/youtube:/code/youtube -p 8000:8000 0a
 #python /code/youtube/youtube/server.py &
 #cat /code/youtube/youtube/ioNng23DkIM.csv
 
-curl -d "watch_id=ioNng23DkIM" -X POST http://localhost:8000/crawl
+curl -d "watch_ids=ioNng23DkIM" -X POST http://localhost:8000/crawl

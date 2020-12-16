@@ -21,9 +21,9 @@ sleep 30
 
 k get all
 
-curl -d "watch_id=ioNng23DkIM" -X POST http://localhost:30007/crawl
-#curl -d "watch_id=ioNng23DkIM" -X POST http://localhost:8000/crawl
-#curl -d "watch_id=ioNng23DkIM" -X POST http://localhost:8088/crawl
+curl -d "watch_ids=ioNng23DkIM" -X POST http://localhost:30007/crawl
+#curl -d "watch_ids=ioNng23DkIM" -X POST http://localhost:8000/crawl
+#curl -d "watch_ids=ioNng23DkIM" -X POST http://localhost:8088/crawl
 
 exit 0
 

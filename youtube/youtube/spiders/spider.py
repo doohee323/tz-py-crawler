@@ -14,8 +14,9 @@ class YoutubeSpider(Spider):
     youtube: str = 'https://www.youtube.com/'
     start_urls = []
 
-    def __init__(self, watch_id='', **kwargs):
-        self.start_urls = [f"{self.youtube}watch?v={watch_id}"]
+    def __init__(self, watch_ids='', **kwargs):
+        for id in watch_ids.split(','):
+            self.start_urls.append(f"{self.youtube}watch?v={id}")
         super().__init__(**kwargs)
 
     def start_requests(self):
@@ -27,7 +28,6 @@ class YoutubeSpider(Spider):
         return urlparse.parse_qs(parsed.query)[param]
 
     def parse(self, r):
-
         chrome_options = Options()
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--whitelisted-ips")
@@ -81,8 +81,8 @@ class YoutubeSpider(Spider):
                 'language': r.xpath('//span[contains(@class, "content-region")]/text()').get('')
             }
         else:
-            print('None found yt_id', yt_id)
-        print('Done!')
+            print('None found: ', yt_id)
+        print(yt_id + ',')
         driver.quit()
 
     def optymize_text(self, text=None):
