@@ -7,7 +7,7 @@ pipeline {
      // YOUR_DOCKERHUB_USERNAME (it doesn't matter if you don't have one)
 
      GIT_BRANCH = "master"
-     DOCKER_VERSION = "test"
+     DOCKER_VERSION = "latest"
      SERVICE_NAME = "tz-py-crawler"
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}:${DOCKER_VERSION}"
    }
