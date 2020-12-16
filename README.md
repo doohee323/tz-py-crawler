@@ -57,7 +57,7 @@ Youtube crawler with scrapy and selenium(for lazy loading elements).
                 ID: GitHub
             Owener: doohee323
     
-        Repository HTTPS URL: git clone https://github.com/doohee323/tz-k8s-vagrant.git
+        Repository HTTPS URL: https://github.com/doohee323/tz-py-crawler.git
 
     # Run the project
 
