@@ -7,7 +7,6 @@ pipeline {
      // YOUR_DOCKERHUB_USERNAME (it doesn't matter if you don't have one)
 
      GIT_BRANCH = "master"
-     K8S_TARGET_NAMESPACE = "default"
      SERVICE_NAME = "tz-py-crawler"
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
    }
@@ -35,7 +34,7 @@ pipeline {
 
       stage('Deploy to Cluster') {
           steps {
-                    sh 'envsubst < ${WORKSPACE}/tz-py-crawler.yaml | kubectl -n ${K8S_TARGET_NAMESPACE} apply -f -'
+            sh 'envsubst < ${WORKSPACE}/tz-py-crawler.yaml | kubectl apply -f -'
           }
       }
    }
