@@ -27,12 +27,6 @@ pipeline {
          }
       }
 
-      stage('Tag') {
-         steps {
-           sh 'docker tag ${SERVICE_NAME}:${DOCKER_VERSION} ${REPOSITORY_TAG}'
-         }
-      }
-
       stage('Push Image') {
          steps {
            sh 'docker push ${REPOSITORY_TAG}'
