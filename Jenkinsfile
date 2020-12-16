@@ -12,6 +12,9 @@ pipeline {
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}:${DOCKER_VERSION}"
 
      registry = "doohee323/tz-py-crawler"
+     // Add a Credentials for dockerhub
+     // http://98.234.161.130:31000/credentials/
+     // ex) Jenkins	(global)	dockerhub	doohee323/****** (dockerhub)
      registryCredential = 'dockerhub'
      dockerImage = ''
    }
