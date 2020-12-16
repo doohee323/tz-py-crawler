@@ -12,7 +12,7 @@ pipeline {
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}:${DOCKER_VERSION}"
 
      registry = "doohee323/tz-py-crawler"
-     registryCredential = 'dockerhub'
+     registryCredential = 'dockerhub_id'
      dockerImage = ''
    }
 
