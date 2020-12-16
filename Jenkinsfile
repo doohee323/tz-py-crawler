@@ -10,6 +10,10 @@ pipeline {
      DOCKER_VERSION = "latest"
      SERVICE_NAME = "tz-py-crawler"
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}:${DOCKER_VERSION}"
+
+     registry = "doohee323/tz-py-crawler"
+     registryCredential = 'dockerhub_id'
+     dockerImage = ''
    }
 
    stages {
@@ -23,14 +27,27 @@ pipeline {
       }
       stage('Build') {
          steps {
-           sh 'docker image build -t ${REPOSITORY_TAG} .'
+            script {
+                dockerImage = docker.build registry + ":$BUILD_NUMBER"
+            }
+//            sh 'docker image build -t ${REPOSITORY_TAG} .'
          }
       }
 
       stage('Push Image') {
          steps {
-           sh 'docker push ${REPOSITORY_TAG}'
+            script {
+                docker.withRegistry( '', registryCredential ) {
+                dockerImage.push()
+            }
+//            sh 'docker push ${REPOSITORY_TAG}'
          }
+      }
+
+      stage('Cleaning up') {
+        steps{
+            sh "docker rmi $registry:$BUILD_NUMBER"
+        }
       }
 
       stage('Deploy to Cluster') {
