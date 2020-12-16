@@ -5,7 +5,7 @@ set -x
 #bash build.sh latest
 #bash build.sh debug2
 
-#bash /vagrant/tz-local/resource/tz-py-crawler/build.sh debug3
+#bash /vagrant/projects/tz-py-crawler/build.sh debug3
 
 TZ_PROJECT=tz-py-crawler
 cd /vagrant/tz-local/resource/${TZ_PROJECT}

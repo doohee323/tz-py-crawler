@@ -6,7 +6,7 @@ alias k='kubectl --kubeconfig ~/.kube/config'
 sudo mkdir -p /vagrant/data
 sudo chmod -Rf 777 /vagrant/data
 
-cd /vagrant/tz-local/resource/tz-py-crawler
+cd /vagrant/projects/tz-py-crawler
 
 k delete -f tz-py-crawler.yaml
 k delete -f tz-py-crawler-pv.yaml
@@ -36,7 +36,9 @@ k create deployment tz-py-crawler --image=doohee323/tz-py-crawler:latest
 #k exec -it pod/tz-py-crawler-95cd4c99b-lz47d bash
 #k exec -it deployment.apps/tz-py-crawler bash
 #k -v=9 exec -it pod/tz-py-crawler-6cc76cdbc9-2fpfx -- sh
-#k exec -it pod/tz-py-crawler-76fb8f667d-n6z94 -- sh
+#k exec -it pod/tz-py-crawler-76fb8f667d-c5bsz -- sh
+
+#k exec -it pod/jenkins-76f647c65b-jvvdn -n jenkins -- sh
 
 k get deployment tz-py-crawler -o yaml > tz-py-crawler.yaml
 #k delete deployment.apps/tz-py-crawler
