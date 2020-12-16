@@ -38,6 +38,16 @@ Youtube crawler with scrapy and selenium(for lazy loading elements).
 
 ## -. k8s in Jenkins
 ``` 
+    sudo mkdir -p /vagrant/data
+    sudo chmod -Rf 777 /vagrant/data
+
+    cd /vagrant/projects
+    git clone https://github.com/doohee323/tz-py-crawler.git
+    cd /vagrant/projects/tz-py-crawler
+
+    k apply -f tz-py-crawler-pv.yaml
+    k delete -f tz-py-crawler.yaml
+
     # Jenkins global settings
         http://dooheehong323:31000/configure
         Global properties > Environment variables > Add
@@ -46,9 +56,9 @@ Youtube crawler with scrapy and selenium(for lazy loading elements).
 
     # make a project in Jenkins
         new item
-        name: tz-k8s-vagrant
+        name: tz-py-crawler
         type: multibranch Pipeline
-        Display Name: tz-k8s-vagrant
+        Display Name: tz-py-crawler
         Branch Sources: GitHub
             Credential: Jenkins
                 Username: doohee323 # github id
@@ -62,5 +72,5 @@ Youtube crawler with scrapy and selenium(for lazy loading elements).
     # Run the project
 
     ## checking the result 
-        k get all | grep tz-k8s-vagrant
+        k get all | grep tz-py-crawler
 ```
