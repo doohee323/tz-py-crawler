@@ -34,9 +34,7 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
 
     def do_POST(self):
-        print('===================')
         if self.path == '/crawl':
-            print('===================')
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
             self._set_headers()
@@ -47,7 +45,6 @@ class S(BaseHTTPRequestHandler):
                 out = self.run_craler(params['watch_ids'][0], 'POST')
         else:
             out = 'Not found!'
-        print('===================111')
         self.wfile.write(bytes("{\'result\': '" + out + "'}", 'utf-8'))
 
     def run_craler(self, watch_ids='', exec_type='GET'):
@@ -60,7 +57,6 @@ class S(BaseHTTPRequestHandler):
                 csv_path = '/mnt/' + watch_ids + '_' + currentDT.strftime("%Y%m%d%H%M%S") + '.json'
             else:
                 csv_path = '../' + watch_ids + '_' + currentDT.strftime("%Y%m%d%H%M%S") + '.json'
-            print(csv_path)
             process = subprocess.Popen(
                 ['scrapy', 'crawl', 'youtube', '-a', 'watch_ids=' + watch_ids, '-o', csv_path, '-t', 'json'],
                 cwd=os.path.dirname(os.path.realpath(__file__)),
@@ -78,7 +74,6 @@ class S(BaseHTTPRequestHandler):
                 csv_path = '/mnt/'
             else:
                 csv_path = '../'
-            print(csv_path)
             files = glob.glob(os.path.join(csv_path, watch_ids + '*.json'))
             if not files:
                 return ''
