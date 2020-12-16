@@ -6,6 +6,8 @@ pipeline {
      // ORGANIZATION_NAME
      // YOUR_DOCKERHUB_USERNAME (it doesn't matter if you don't have one)
 
+     GIT_BRANCH = "master"
+     K8S_TARGET_NAMESPACE = "default"
      SERVICE_NAME = "tz-py-crawler"
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${ORGANIZATION_NAME}-${SERVICE_NAME}:${BUILD_ID}"
    }
@@ -16,7 +18,7 @@ pipeline {
             cleanWs()
             git credentialsId: 'GitHub',
             url: "https://github.com/${ORGANIZATION_NAME}/${SERVICE_NAME}",
-            branch: "master"
+            branch: "${GIT_BRANCH}"
          }
       }
       stage('Build') {
@@ -33,7 +35,7 @@ pipeline {
 
       stage('Deploy to Cluster') {
           steps {
-                    sh 'envsubst < ${WORKSPACE}/tz-py-crawler.yaml | kubectl apply -f -'
+                    sh 'envsubst < ${WORKSPACE}/tz-py-crawler.yaml | kubectl -n ${K8S_TARGET_NAMESPACE} apply -f -'
           }
       }
    }
