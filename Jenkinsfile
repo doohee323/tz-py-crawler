@@ -31,7 +31,7 @@ pipeline {
 
       stage('Deploy to Cluster') {
           steps {
-                    sh 'envsubst < ${WORKSPACE}/tz-py-crawler.yaml | kubectl -n default apply -f -'
+                    sh 'envsubst < ${WORKSPACE}/tz-py-crawler.yaml | kubectl apply -f -'
           }
       }
    }
