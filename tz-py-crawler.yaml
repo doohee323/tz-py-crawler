@@ -17,10 +17,10 @@ spec:
 #        image: doohee323/tz-py-crawler:latest
         image: ${REPOSITORY_TAG}
 #        imagePullPolicy: Never
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 8000
+#        readinessProbe:
+#          httpGet:
+#            path: /health
+#            port: 8000
         volumeMounts:
           - name: local-persistent-storage
             mountPath: /mnt
