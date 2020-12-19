@@ -45,16 +45,16 @@ pipeline {
          }
       }
 
-      stage('Cleaning up') {
-        steps{
-            sh "docker rmi $registry:$BUILD_NUMBER"
-        }
-      }
-
       stage('Deploy to Cluster') {
           steps {
             sh 'envsubst < ${WORKSPACE}/tz-py-crawler.yaml | kubectl apply -f -'
           }
       }
+
+//       stage('Cleaning up') {
+//         steps{
+//             sh "docker rmi $registry:$BUILD_NUMBER"
+//         }
+//       }
    }
 }
