@@ -19,7 +19,7 @@ spec:
 #        imagePullPolicy: Never
         readinessProbe:
           httpGet:
-            path: /
+            path: /health
             port: 8000
         volumeMounts:
           - name: local-persistent-storage
