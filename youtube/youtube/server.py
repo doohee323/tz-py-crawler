@@ -43,6 +43,8 @@ class S(BaseHTTPRequestHandler):
                 out = 'watch_ids is required.'
             else:
                 out = self.run_craler(params['watch_ids'][0], 'POST')
+        elif self.path == '/heath':
+            out = 'ok'
         else:
             out = 'Not found!'
         self.wfile.write(bytes("{\'result\': '" + out + "'}", 'utf-8'))
