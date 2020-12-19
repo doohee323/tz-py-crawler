@@ -29,8 +29,8 @@ RUN pip install -r requirements.txt
 COPY youtube/ .
 
 EXPOSE 8000
-# local debugging
-CMD [ "python", "/code/youtube/youtube/server.py" ]
-## run in k8s
-#CMD [ "python", "/code/youtube/server.py" ]
+## local debugging
+#CMD [ "python", "/code/youtube/youtube/server.py" ]
+# run in k8s
+CMD [ "python", "/code/youtube/server.py" ]
 #CMD python -m http.server 8000
