@@ -6,7 +6,8 @@ import glob
 import os
 import datetime
 import requests
-from youtube.youtube.settings import APP_VERSION
+
+APP_VERSION = '0.1'
 
 
 class S(BaseHTTPRequestHandler):
