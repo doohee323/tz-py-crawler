@@ -38,14 +38,16 @@ docker build -t tz-py-crawler .
 
 docker run -d -v `pwd`/youtube:/code/youtube -p 8000:8000 tz-py-crawler
 docker run -v `pwd`/youtube:/code/youtube -p 8000:8000 -v `pwd`/mnt:/mnt tz-py-crawler
-#docker exec -it kind_benz /bin/bash
+#docker ps
+#docker exec -it recursing_tereshkova /bin/bash
+#/usr/bin/python3 /code/youtube/youtube/cli.py -l /mnt/list.txt
 
 curl -d "watch_ids=ioNng23DkIM,MlE-HP1U5DM" -X POST http://localhost:8000/crawl
 curl -X GET http://localhost:8000/crawl?watch_ids=ioNng23DkIM,MlE-HP1U5DM
 
 #docker image ls
 #docker container run -it --rm --name=debug2 -v `pwd`/youtube:/code/youtube -p 8000:8000 cd0dad6e335a /bin/sh
-docker run --rm -it --name=debug2 -v `pwd`/youtube:/code/youtube -p 8000:8000 0a3353d03153
+docker run --rm -it --name=debug2 -v `pwd`/youtube:/code/youtube -p 8000:8000 366853331b20  /bin/sh
 
 #python /code/youtube/youtube/server.py &
 #cat /code/youtube/youtube/ioNng23DkIM.csv

@@ -1,11 +1,7 @@
-from http.server import HTTPServer, BaseHTTPRequestHandler
 import argparse
 import subprocess
-from urllib import parse
 import glob
 import os
-import datetime
-import requests
 
 APP_VERSION = '0.1'
 
