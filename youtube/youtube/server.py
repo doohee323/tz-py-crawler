@@ -6,6 +6,7 @@ import glob
 import os
 import datetime
 import requests
+from youtube.youtube.settings import APP_VERSION
 
 
 class S(BaseHTTPRequestHandler):
@@ -19,12 +20,14 @@ class S(BaseHTTPRequestHandler):
 
     def do_GET(self):
         query = requests.utils.urlparse(self.path).query
-        params = dict(x.split('=') for x in query.split('&'))
         if '/crawl' in self.path:
+            params = dict(x.split('=') for x in query.split('&'))
             if 'watch_ids' not in params:
                 out = 'watch_ids is required.'
             else:
                 out = self.run_craler(params['watch_ids'], 'GET')
+        elif self.path == '/health':
+            out = "{\'version\': '" + APP_VERSION + "'}"
         else:
             out = 'Not found!'
         self._set_headers()
@@ -43,8 +46,6 @@ class S(BaseHTTPRequestHandler):
                 out = 'watch_ids is required.'
             else:
                 out = self.run_craler(params['watch_ids'][0], 'POST')
-        elif self.path == '/heath':
-            out = 'ok'
         else:
             out = 'Not found!'
         self.wfile.write(bytes("{\'result\': '" + out + "'}", 'utf-8'))
