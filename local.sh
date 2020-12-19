@@ -39,7 +39,7 @@ docker build -t tz-py-crawler .
 docker run -d -v `pwd`/youtube:/code/youtube -p 8000:8000 tz-py-crawler
 docker run -v `pwd`/youtube:/code/youtube -p 8000:8000 -v `pwd`/mnt:/mnt tz-py-crawler
 #docker ps
-#docker exec -it recursing_tereshkova /bin/bash
+#docker exec -it pod/tz-py-crawler-7cd7c49755-w79hw /bin/bash
 #/usr/bin/python3 /code/youtube/youtube/cli.py -l /mnt/list.txt
 
 curl -d "watch_ids=ioNng23DkIM,MlE-HP1U5DM" -X POST http://localhost:8000/crawl

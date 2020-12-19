@@ -7,7 +7,7 @@ import os
 import datetime
 import requests
 
-APP_VERSION = '0.1'
+APP_VERSION = '0.2'
 
 
 class S(BaseHTTPRequestHandler):

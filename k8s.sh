@@ -36,7 +36,8 @@ k create deployment tz-py-crawler --image=doohee323/tz-py-crawler:latest
 #k exec -it pod/tz-py-crawler-95cd4c99b-lz47d bash
 #k exec -it deployment.apps/tz-py-crawler bash
 #k -v=9 exec -it pod/tz-py-crawler-6cc76cdbc9-2fpfx -- sh
-#k exec -it pod/tz-py-crawler-7bfbbc588-tmst6 -- sh
+#k exec -it pod/tz-py-crawler-7cd7c49755-fz967 -- sh
+#/usr/bin/python3 /code/youtube/cli.py -l /mnt/list.txt
 
 k get deployment tz-py-crawler -o yaml > tz-py-crawler.yaml
 #k delete deployment.apps/tz-py-crawler
