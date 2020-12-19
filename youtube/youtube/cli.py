@@ -98,6 +98,7 @@ def run(type="POST", path="/crawl", list="/mnt/data/list", query=""):
         cli.do_POST()
 
 # python youtube/youtube/cli.py -l /Volumes/workspace/etc/tz-k8s-vagrant/projects/tz-py-crawler/youtube/list.txt
+# python youtube/youtube/cli.py -l /mnt/list.txt
 # python youtube/youtube/cli.py -t GET -q watch_ids=kVQEW0SNFqE
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a CLI command.")

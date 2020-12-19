@@ -27,6 +27,9 @@ Youtube crawler with scrapy and selenium(for lazy loading elements).
     
     $> curl -d "watch_ids=ioNng23DkIM" -X POST http://localhost:8000/crawl
     json files will be made under youtube folder.
+
+    It can be run by CLI for multiple IDs through httpd server.
+    $> python3 youtube/youtube/cli.py -l /mnt/list.txt    
 ```
 
 ## -. docker
