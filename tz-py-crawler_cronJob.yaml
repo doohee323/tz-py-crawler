@@ -10,8 +10,7 @@ spec:
         spec:
           containers:
           - name: tz-py-crawler-job
-#            image: doohee323/tz-py-crawler:24
-            image: ${REPOSITORY_TAG}
+            image: doohee323/tz-py-crawler:24
             imagePullPolicy: IfNotPresent
             args:
             - /usr/bin/python3
