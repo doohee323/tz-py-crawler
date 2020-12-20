@@ -17,7 +17,7 @@ spec:
       - matchExpressions:
         - key: kubernetes.io/hostname
           operator: In
-          values: ["k8s-master", "node-1"]
+          values: ["k8s-master", "node-1", "node-2"]
 
 ---
 kind: PersistentVolumeClaim
