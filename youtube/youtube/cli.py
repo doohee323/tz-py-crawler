@@ -97,7 +97,7 @@ def run(type="POST", domain="http://tz-py-crawler:8000", path="/crawl", list="/m
         cli.do_POST()
 
 # python youtube/youtube/cli.py -l /Volumes/workspace/etc/tz-k8s-vagrant/projects/tz-py-crawler/youtube/list.txt
-# python youtube/youtube/cli.py -l /mnt/list.txt
+# python youtube/youtube/cli.py -l /mnt/list.txt -d http://98.234.161.130:30007
 # python youtube/youtube/cli.py -t GET -q watch_ids=kVQEW0SNFqE
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a CLI command.")
