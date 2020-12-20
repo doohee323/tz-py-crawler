@@ -53,8 +53,9 @@ class Cli:
         out = ''
         if exec_type == 'POST':
             # curl -d "watch_ids=ioNng23DkIM" -X POST http://98.234.161.130:8000/crawl
+            # curl -d "watch_ids=ioNng23DkIM" -X POST http://tz-py-crawler:8000/crawl
             process = subprocess.Popen(
-                ['curl', '-d', 'watch_ids=' + watch_ids, '-X', 'POST', 'http://localhost:8000/crawl'],
+                ['curl', '-d', 'watch_ids=' + watch_ids, '-X', 'POST', self.domain + '/crawl'],
                 cwd=os.path.dirname(os.path.realpath(__file__)),
                 stdout=subprocess.PIPE,
                 universal_newlines=True)
@@ -67,8 +68,9 @@ class Cli:
             return out
         elif exec_type == 'GET':
             # curl http://98.234.161.130:8000/crawl?watch_ids=ioNng23DkIM
+            # curl http://tz-py-crawler:8000/crawl?watch_ids=
             process = subprocess.Popen(
-                ['curl', 'http://localhost:8000/crawl?watch_ids=' + watch_ids],
+                ['curl', self.domain + '/crawl?watch_ids=' + watch_ids],
                 cwd=os.path.dirname(os.path.realpath(__file__)),
                 stdout=subprocess.PIPE,
                 universal_newlines=True)
@@ -81,10 +83,11 @@ class Cli:
             return out
 
 
-def run(type="POST", path="/crawl", list="/mnt/data/list", query=""):
+def run(type="POST", domain="http://tz-py-crawler:8000", path="/crawl", list="/mnt/data/list", query=""):
     print(f"Starting with {type}, {path}, {list}, {query}")
     cli = Cli()
     cli.type = type
+    cli.domain = domain
     cli.path = path
     cli.list = list
     cli.query = query
@@ -105,6 +108,12 @@ if __name__ == "__main__":
         help="Specify request type (GET/POST)",
     )
     parser.add_argument(
+        "-d",
+        "--domain",
+        default='http://tz-py-crawler:8000',
+        help="Specify request domain",
+    )
+    parser.add_argument(
         "-p",
         "--path",
         default='/crawl',
@@ -123,4 +132,4 @@ if __name__ == "__main__":
         help="Specify youtube_id",
     )
     args = parser.parse_args()
-    run(type=args.type, path=args.path, list=args.list, query=args.query)
+    run(type=args.type, domain=args.domain, path=args.path, list=args.list, query=args.query)
