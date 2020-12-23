@@ -42,20 +42,23 @@ class Cli:
             if len(params) == 0:
                 out = 'watch_ids is required.'
             else:
+                if not os.path.exists(self.json_path):
+                    os.makedirs(self.json_path)
                 for watch_id in params:
                     out = self.run_craler(watch_id, 'POST')
                     try:
-                        repo_path = '/mnt/data/'
-                        # repo_path = '/Volumes/workspace/etc/tz-k8s-vagrant/projects/tz-py-crawler/youtube/'
-                        files = glob.glob(os.path.join(repo_path, watch_id + '*.json'))
+                        source_path = '/mnt/'
+                        files = glob.glob(os.path.join(source_path, watch_id + '*.json'))
                         file = open(max(files, key=os.path.getctime), mode='r')
                         post_data = file.read()
                         file.close()
                         post_data = post_data.replace('\n', '').replace('},', '}\n')
                         post_data = post_data[1: len(post_data) - 1]
-                        f2 = open(self.json_path + '/' + os.path.basename(file.name), "a")
+                        target_file = os.path.join(self.json_path, os.path.basename(file.name))
+                        f2 = open(target_file, "a")
                         f2.write(post_data)
                         f2.close()
+                        out = target_file
                     except Exception as e:
                         pass
         else:
@@ -98,7 +101,7 @@ class Cli:
             return out
 
 
-def run(type="POST", domain="http://tz-py-crawler:8000", path="/crawl", list="/mnt/data/list", query="", json_path="/mnt"):
+def run(type="POST", domain="http://tz-py-crawler:8000", path="/crawl", list="/mnt/list.txt", query="", json_path="/mnt/result"):
     print(f"Starting with {type}, {path}, {list}, {query}")
     cli = Cli()
     cli.type = type
@@ -113,8 +116,9 @@ def run(type="POST", domain="http://tz-py-crawler:8000", path="/crawl", list="/m
         cli.do_POST()
 
 # python youtube/youtube/cli.py -l /Volumes/workspace/etc/tz-k8s-vagrant/projects/tz-py-crawler/youtube/list.txt
-# python youtube/youtube/cli.py -l /mnt/list.txt -d http://98.234.161.130:30007
+# python3 youtube/youtube/cli.py -l /mnt/list.txt -d http://98.234.161.130:30007 -j /mnt/test
 # python youtube/youtube/cli.py -t GET -q watch_ids=kVQEW0SNFqE
+# python3 youtube/cli.py -l /mnt/list.txt -d http://98.234.161.130:30007 -j /mnt/result
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run a CLI command.")
     parser.add_argument(
@@ -138,7 +142,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-l",
         "--list",
-        default="/mnt/data/list",
+        default="/mnt/list.txt",
         help="Specify youtube_id list file path",
     )
     parser.add_argument(
@@ -150,7 +154,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-j",
         "--json_path",
-        default="json_path=/mnt",
+        default="/mnt/result",
         help="Specify youtube_id",
     )
     args = parser.parse_args()
