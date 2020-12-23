@@ -45,9 +45,15 @@ pipeline {
          }
       }
 
-      stage('Deploy to Cluster') {
+      stage('Deploy the service to Cluster') {
           steps {
             sh 'envsubst < ${WORKSPACE}/tz-py-crawler.yaml | kubectl apply -f -'
+          }
+      }
+
+      stage('Deploy the job to Cluster') {
+          steps {
+            sh 'envsubst < ${WORKSPACE}/tz-py-crawler_cronJob.yaml | kubectl apply -f -'
           }
       }
 
