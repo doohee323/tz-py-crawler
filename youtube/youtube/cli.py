@@ -11,6 +11,7 @@ class Cli:
     path = ''
     list = ''
     query = ''
+    json_path = ''
 
     def do_GET(self):
         if '/crawl' in self.path:
@@ -43,6 +44,20 @@ class Cli:
             else:
                 for watch_id in params:
                     out = self.run_craler(watch_id, 'POST')
+                    try:
+                        repo_path = '/mnt/data/'
+                        # repo_path = '/Volumes/workspace/etc/tz-k8s-vagrant/projects/tz-py-crawler/youtube/'
+                        files = glob.glob(os.path.join(repo_path, watch_id + '*.json'))
+                        file = open(max(files, key=os.path.getctime), mode='r')
+                        post_data = file.read()
+                        file.close()
+                        post_data = post_data.replace('\n', '').replace('},', '}\n')
+                        post_data = post_data[1: len(post_data) - 1]
+                        f2 = open(self.json_path + '/' + os.path.basename(file.name), "a")
+                        f2.write(post_data)
+                        f2.close()
+                    except Exception as e:
+                        pass
         else:
             out = 'Not found!'
         print("{\'result\': '" + out + "'}")
@@ -53,7 +68,7 @@ class Cli:
         out = ''
         if exec_type == 'POST':
             # curl -d "watch_ids=ioNng23DkIM" -X POST http://98.234.161.130:8000/crawl
-            # curl -d "watch_ids=ioNng23DkIM" -X POST http://tz-py-crawler:8000/crawl
+            # curl -d "watch_ids=kVQEW0SNFqE" -X POST http://localhost:8000/crawl
             process = subprocess.Popen(
                 ['curl', '-d', 'watch_ids=' + watch_ids, '-X', 'POST', self.domain + '/crawl'],
                 cwd=os.path.dirname(os.path.realpath(__file__)),
@@ -83,7 +98,7 @@ class Cli:
             return out
 
 
-def run(type="POST", domain="http://tz-py-crawler:8000", path="/crawl", list="/mnt/data/list", query=""):
+def run(type="POST", domain="http://tz-py-crawler:8000", path="/crawl", list="/mnt/data/list", query="", json_path="/mnt"):
     print(f"Starting with {type}, {path}, {list}, {query}")
     cli = Cli()
     cli.type = type
@@ -91,6 +106,7 @@ def run(type="POST", domain="http://tz-py-crawler:8000", path="/crawl", list="/m
     cli.path = path
     cli.list = list
     cli.query = query
+    cli.json_path = json_path
     if type == 'GET':
         cli.do_GET()
     elif type == 'POST':
@@ -131,5 +147,11 @@ if __name__ == "__main__":
         default="watch_ids=ioNng23DkIM",
         help="Specify youtube_id",
     )
+    parser.add_argument(
+        "-j",
+        "--json_path",
+        default="json_path=/mnt",
+        help="Specify youtube_id",
+    )
     args = parser.parse_args()
-    run(type=args.type, domain=args.domain, path=args.path, list=args.list, query=args.query)
+    run(type=args.type, domain=args.domain, path=args.path, list=args.list, query=args.query, json_path=args.json_path)

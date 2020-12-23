@@ -29,7 +29,9 @@ Youtube crawler with scrapy and selenium(for lazy loading elements).
     json files will be made under youtube folder.
 
     It can be run by CLI for multiple IDs through httpd server.
-    $> python3 youtube/youtube/cli.py -l /mnt/list.txt    
+    $> python3 youtube/youtube/cli.py -l /mnt/list.txt
+    It makes json files in the specific path
+    $> python3 youtube/youtube/cli.py -l /mnt/list.txt -j /mnt/data
 ```
 
 ## -. docker
