@@ -53,7 +53,7 @@ class Cli:
                         post_data = file.read()
                         file.close()
                         post_data = post_data.replace('\n', '').replace('},', '}\n')
-                        post_data = post_data[1: len(post_data) - 1] + '\n'
+                        post_data = post_data[1: len(post_data) - 1] + '\n' + '\n'
                         target_file = os.path.join(self.json_path, os.path.basename(file.name))
                         f2 = open(target_file, "a")
                         f2.write(post_data)
