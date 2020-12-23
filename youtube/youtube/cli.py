@@ -2,6 +2,7 @@ import argparse
 import subprocess
 import glob
 import os
+import time
 
 APP_VERSION = '0.1'
 
@@ -48,12 +49,14 @@ class Cli:
                     out = self.run_craler(watch_id, 'POST')
                     try:
                         source_path = '/mnt/'
+                        # source_path = '/Volumes/workspace/etc/tz-k8s-vagrant/projects/tz-py-crawler/youtube'
                         files = glob.glob(os.path.join(source_path, watch_id + '*.json'))
                         file = open(max(files, key=os.path.getctime), mode='r')
                         post_data = file.read()
                         file.close()
                         post_data = post_data.replace('\n', '').replace('},', '}\n')
-                        post_data = post_data[1: len(post_data) - 1] + '\n' + '\n'
+                        post_data = post_data[2: len(post_data) - 1] + '\n'
+                        post_data = '{"timestamp": ' + str(int(time.time())) + ', ' + post_data
                         target_file = os.path.join(self.json_path, os.path.basename(file.name))
                         f2 = open(target_file, "a")
                         f2.write(post_data)
