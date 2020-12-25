@@ -9,9 +9,11 @@ pipeline {
      GIT_BRANCH = "master"
      SERVICE_NAME = "tz-py-crawler"
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}:${BUILD_NUMBER}"
+//      DOCKER_REGISTRY_URL = ""
+     DOCKER_REGISTRY_URL = "http://192.168.1.10:5000"
 
-//      registry = "doohee323/tz-py-crawler"
-     registry = "192.168.1.10:5000/doohee323/tz-py-crawler"
+     registry = "doohee323/tz-py-crawler"
+//      registry = "192.168.1.10:5000/doohee323/tz-py-crawler"
      // Add a Credentials for dockerhub
      // http://98.234.161.130:31000/credentials/
      // ex) Jenkins	(global)	dockerhub	doohee323/****** (dockerhub)
@@ -40,7 +42,7 @@ pipeline {
       stage('Push Image') {
          steps {
             script {
-                docker.withRegistry( '', registryCredential ) {
+                docker.withRegistry( ${DOCKER_REGISTRY_URL}, registryCredential ) {
                     dockerImage.push()
                 }
             }
