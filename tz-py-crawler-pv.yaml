@@ -20,8 +20,8 @@ spec:
           values: ["k8s-master", "node-1"]
 
 ---
-kind: PersistentVolumeClaim
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
   name: tz-pvc
 spec:
