@@ -8,6 +8,7 @@ sudo chmod -Rf 777 /vagrant/data
 
 cd /vagrant/projects/tz-py-crawler
 
+k delete -f tz-py-crawler_cronJob.yaml
 k delete -f tz-py-crawler.yaml
 k delete -f tz-py-crawler-pv.yaml
 
@@ -17,11 +18,13 @@ k apply -f tz-py-crawler-pv.yaml
 
 k apply -f tz-py-crawler.yaml
 
+k apply -f tz-py-crawler_cronJob.yaml
+
 sleep 30
 
 k get all
 
-curl -d "watch_ids=ioNng23DkIM" -X POST http://localhost:30007/crawl
+#curl -d "watch_ids=ioNng23DkIM" -X POST http://localhost:30007/crawl
 #curl -d "watch_ids=ioNng23DkIM" -X POST http://localhost:8000/crawl
 #curl -d "watch_ids=ioNng23DkIM" -X POST http://localhost:8088/crawl
 
