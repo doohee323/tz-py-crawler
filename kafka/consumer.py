@@ -1,6 +1,6 @@
 from kafka import KafkaConsumer
 
-consumer = KafkaConsumer('newtopic', bootstrap_servers=['dooheehong323:32181'], group_id='group-1')
+consumer = KafkaConsumer('newtopic', bootstrap_servers=['localhost:9092'], group_id='group-1')
 
 
 def consume_messages():

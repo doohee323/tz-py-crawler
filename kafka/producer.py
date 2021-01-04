@@ -2,7 +2,7 @@ from time import sleep
 
 from kafka import KafkaProducer
 
-producer = KafkaProducer(bootstrap_servers='dooheehong323:30092')
+producer = KafkaProducer(bootstrap_servers='localhost:9092')
 
 
 def produce_message(message: str):
