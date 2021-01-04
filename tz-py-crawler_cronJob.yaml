@@ -13,7 +13,8 @@ spec:
           - name: tz-py-crawler-job
 #            image: doohee323/tz-py-crawler:24
             image: ${REPOSITORY_TAG}
-            imagePullPolicy: IfNotPresent
+#            imagePullPolicy: IfNotPresent
+#            imagePullPolicy: Never
             args:
             - /usr/bin/python3
             - /code/youtube/cli.py
