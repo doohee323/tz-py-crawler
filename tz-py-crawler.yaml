@@ -27,7 +27,7 @@ spec:
       volumes:
         - name: local-persistent-storage
           persistentVolumeClaim:
-            claimName: tz-pvc
+            claimName: pvc-nfs-dynamic
 
 ---
 apiVersion: v1

@@ -23,7 +23,7 @@ spec:
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: tz-pvc
+  name: pvc-nfs-dynamic
 spec:
   accessModes:
   - ReadWriteOnce
