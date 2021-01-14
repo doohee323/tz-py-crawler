@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: tz-py-crawler
-        image: doohee323/tz-py-crawler:latest
-#        image: ${REPOSITORY_TAG}
+#        image: doohee323/tz-py-crawler:latest
+        image: ${REPOSITORY_TAG}
 #        imagePullPolicy: Never
         readinessProbe:
           httpGet:
