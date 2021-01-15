@@ -58,6 +58,7 @@ Youtube crawler with scrapy and selenium(for lazy loading elements).
         Global properties > Environment variables > Add
         ORGANIZATION_NAME: doohee323
         YOUR_DOCKERHUB_USERNAME: doohee323
+        DOCKER_REGISTRY_URL: http://192.168.1.10:5000
 
     # make a project in Jenkins
         new item
