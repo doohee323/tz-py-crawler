@@ -8,7 +8,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
+  storageClassName: nfs-csi   # local-storage
   local:
     path: /vagrant/data
   nodeAffinity:
@@ -27,7 +27,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  storageClassName: local-storage
+  storageClassName: nfs-csi   # local-storage
   resources:
     requests:
       storage: 10Mi
