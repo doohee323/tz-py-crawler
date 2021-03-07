@@ -6,29 +6,89 @@ spec:
   capacity:
     storage: 10Mi
   accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: nfs-csi   # local-storage
-  local:
-    path: /vagrant/data
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values: ["k8s-master", "node-1", "node-2"]
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  csi:
+    driver: nfs.csi.k8s.io
+    readOnly: false
+    volumeHandle: tz-local-pv  # make sure it's a unique id in the cluster
+    volumeAttributes:
+      server: nfs-server.default.svc.cluster.local
+      share: /
 
 ---
+
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-nfs-dynamic
 spec:
   accessModes:
-  - ReadWriteOnce
-  storageClassName: nfs-csi   # local-storage
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Mi
+  volumeName: tz-local-pv
+  storageClassName: ""
+
+#---
+#apiVersion: v1
+#kind: Pod
+#metadata:
+#  name: nginx-nfs-example2
+#spec:
+#  containers:
+#    - image: nginx
+#      name: nginx
+#      ports:
+#        - containerPort: 80
+#          protocol: TCP
+#      volumeMounts:
+#        - mountPath: /var/www
+#          name: pvc-nginx
+#  volumes:
+#    - name: pvc-nginx2
+#      persistentVolumeClaim:
+#        claimName: pvc-nfs-dynamic
+
+###########################
+## without csi
+###########################
+#apiVersion: v1
+#kind: PersistentVolume
+#metadata:
+#  name: tz-local-pv
+#spec:
+#  capacity:
+#    storage: 10Mi
+#  accessModes:
+#  - ReadWriteOnce
+#  persistentVolumeReclaimPolicy: Retain
+#  storageClassName: nfs-csi   # local-storage
+#  local:
+#    path: /vagrant/data
+#  nodeAffinity:
+#    required:
+#      nodeSelectorTerms:
+#      - matchExpressions:
+#        - key: kubernetes.io/hostname
+#          operator: In
+#          values: ["k8s-master", "node-1", "node-2"]
+
+
+
+#kind: PersistentVolumeClaim
+#apiVersion: v1
+#metadata:
+#  name: pvc-nfs-dynamic
+#spec:
+#  accessModes:
+#  - ReadWriteOnce
+#  storageClassName: nfs-csi   # local-storage
+#  resources:
+#    requests:
+#      storage: 10Mi
 
