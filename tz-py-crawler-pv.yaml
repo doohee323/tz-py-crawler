@@ -50,7 +50,7 @@ spec:
 #        - mountPath: /var/www
 #          name: pvc-nginx
 #  volumes:
-#    - name: pvc-nginx2
+#    - name: pvc-nginx
 #      persistentVolumeClaim:
 #        claimName: pvc-nfs-dynamic
 
