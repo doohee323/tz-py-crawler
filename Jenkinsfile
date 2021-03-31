@@ -11,15 +11,15 @@ pipeline {
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}:${BUILD_NUMBER}"
 //      DOCKER_REGISTRY_URL = ""
 //      DOCKER_REGISTRY_URL = "http://192.168.1.10:5000"
-     DOCKER_REGISTRY_URL = "http://192.168.0.232:5000"
+//      DOCKER_REGISTRY_URL = "http://192.168.0.232:5000"
 
      registry = "doohee323/tz-py-crawler"
 //      registry = "192.168.1.10:5000/doohee323/tz-py-crawler"
      // Add a Credentials for dockerhub
      // http://98.234.161.130:31000/credentials/
      // ex) Jenkins	(global)	dockerhub	doohee323/****** (dockerhub)
-//      registryCredential = 'dockerhub'
-     registryCredential = 'docker_repo'
+     registryCredential = 'dockerhub'
+//      registryCredential = 'docker_repo'
      dockerImage = ''
    }
 
