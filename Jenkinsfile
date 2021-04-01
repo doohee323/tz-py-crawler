@@ -45,6 +45,7 @@ pipeline {
          steps {
             cleanWs()
             sh 'apk add --update docker'
+            sh 'apk add git'
             git credentialsId: 'GitHub',
             url: "https://github.com/${ORGANIZATION_NAME}/${SERVICE_NAME}",
             branch: "${GIT_BRANCH}"
