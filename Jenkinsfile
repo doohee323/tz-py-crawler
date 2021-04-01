@@ -1,5 +1,22 @@
 pipeline {
-   agent any
+   agent {
+    kubernetes {
+      yaml """\
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          labels:
+            some-label: some-label-value
+        spec:
+          containers:
+          - name: maven
+            image: alpine
+            command:
+            - cat
+            tty: true
+        """.stripIndent()
+      }
+   }
 
    environment {
      // You must set the following environment variables in Jenkins configuration
@@ -27,6 +44,7 @@ pipeline {
       stage('Preparation') {
          steps {
             cleanWs()
+            sh 'apk add --update docker'
             git credentialsId: 'GitHub',
             url: "https://github.com/${ORGANIZATION_NAME}/${SERVICE_NAME}",
             branch: "${GIT_BRANCH}"
